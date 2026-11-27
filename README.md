@@ -93,6 +93,10 @@ Wine 環境では、接続したままウィンドウを閉じると終了処理
 
 Windows 上の通常動作には影響しません（正常時は即座に応答が返るため）。
 
+## 右クリックメニューの文字化け対策（パッチ適用済み）
+
+WPF のコンテキストメニューは OS のメニューフォント（Wine 既定では Tahoma）を使うため、日本語が豆腐（□）になりました。対策として `fonts.reg` で WindowMetrics の各フォント（MenuFont 等）を Noto Sans CJK JP に差し替えています。あわせて、メニューが黒く描画される問題への対策として WPF のハードウェア描画を無効化（Avalon.Graphics の DisableHWAcceleration=1）しています。どちらも `start.sh` が起動のたびに `fonts.reg` を適用するので、既存プレフィックスにも反映されます。
+
 ## 日本語入力（Fcitx5 + Mozc）と右クリックメニューについて
 
 Wine の Wayland ドライバでは Windows の IME が Fcitx5/Mozc に接続できず日本語入力ができず、WPF の右クリックメニュー（レイヤードウィンドウ）が黒く描画される問題がありました。そのため `start.sh` は既定で **XWayland（X11ドライバ）経由** で起動し、`XMODIFIERS=@im=fcitx` などの IM 環境変数を設定します（KDE + XWayland 前提）。

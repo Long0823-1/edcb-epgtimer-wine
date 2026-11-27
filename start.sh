@@ -30,6 +30,13 @@ if [ ! -d "$WINEPREFIX/drive_c" ]; then
     echo "warning: $FONT_SRC が無いため日本語フォント設定をスキップしました。noto-fonts-cjk を導入してください。" >&2
   fi
 fi
+# フォント/描画まわりのレジストリ設定 (fonts.reg) は起動のたびに適用する (冪等)。
+# 既存プレフィックスにも、メニュー文字化け対策 (WindowMetrics) と
+# 右クリックメニュー黒対策 (WPF ソフトウェア描画) を行き渡らせるため。
+if [ -f "$APP_DIR/fonts.reg" ]; then
+  wine regedit "$APP_DIR/fonts.reg" >/dev/null 2>&1 || true
+fi
+
 # --- HiDPI: ディスプレイのスケールに合わせて Wine の DPI (LogPixels) を設定する ---
 # 優先順位: 環境変数 EPGTIMER_DPI_SCALE (例 1.5) / EPGTIMER_DPI (例 144) > 自動検出 > 1.0
 # 自動検出 (KDE): kwinrc の Xwayland Scale -> kwinoutputconfig.json の先頭出力の scale
