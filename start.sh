@@ -30,4 +30,55 @@ if [ ! -d "$WINEPREFIX/drive_c" ]; then
     echo "warning: $FONT_SRC が無いため日本語フォント設定をスキップしました。noto-fonts-cjk を導入してください。" >&2
   fi
 fi
+# --- HiDPI: ディスプレイのスケールに合わせて Wine の DPI (LogPixels) を設定する ---
+# 優先順位: 環境変数 EPGTIMER_DPI_SCALE (例 1.5) / EPGTIMER_DPI (例 144) > 自動検出 > 1.0
+# 自動検出 (KDE): kwinrc の Xwayland Scale -> kwinoutputconfig.json の先頭出力の scale
+# EPGTIMER_DPI_SCALE=1 を指定すると 96 DPI (等倍) に戻る。
+detect_scale() {
+  local v=""
+  if [ -n "${EPGTIMER_DPI_SCALE:-}" ]; then echo "$EPGTIMER_DPI_SCALE"; return; fi
+  if command -v kreadconfig6 >/dev/null 2>&1; then
+    v="$(kreadconfig6 --file kwinrc --group Xwayland --key Scale 2>/dev/null || true)"
+  elif command -v kreadconfig5 >/dev/null 2>&1; then
+    v="$(kreadconfig5 --file kwinrc --group Xwayland --key Scale 2>/dev/null || true)"
+  fi
+  if [ -z "$v" ] && [ -f "$HOME/.config/kwinoutputconfig.json" ]; then
+    v="$(python3 -c 'import json,sys
+try:
+    d=json.load(open(sys.argv[1]))
+    def walk(x):
+        if isinstance(x,dict):
+            if "scale" in x: return x["scale"]
+            for vv in x.values():
+                r=walk(vv)
+                if r is not None: return r
+        elif isinstance(x,list):
+            for vv in x:
+                r=walk(vv)
+                if r is not None: return r
+    r=walk(d)
+    print(r if r else "")' "$HOME/.config/kwinoutputconfig.json" 2>/dev/null || true)"
+  fi
+  echo "${v:-1}"
+}
+SCALE="$(detect_scale)"
+if [ -n "${EPGTIMER_DPI:-}" ]; then
+  TARGET_DPI="$EPGTIMER_DPI"
+else
+  TARGET_DPI="$(awk -v s="$SCALE" 'BEGIN{ printf "%d", (96*s)+0.5 }')"
+fi
+if [ -n "${TARGET_DPI:-}" ] && [ -d "$WINEPREFIX/drive_c" ]; then
+  CUR_DPI=""
+  if [ -f "$WINEPREFIX/user.reg" ]; then
+    CUR_HEX="$(grep -a '"LogPixels"=dword:' "$WINEPREFIX/user.reg" | head -1 | sed 's/.*dword:0*//')"
+    [ -n "$CUR_HEX" ] && CUR_DPI="$(printf "%d" "0x$CUR_HEX" 2>/dev/null || echo "")"
+  fi
+  if [ "$CUR_DPI" != "$TARGET_DPI" ]; then
+    echo "HiDPI: スケール ${SCALE} に合わせて Wine の DPI を ${TARGET_DPI} に設定します"
+    wineserver -k 2>/dev/null || true
+    WINEPREFIX="$WINEPREFIX" wine reg add 'HKCU\Control Panel\Desktop' /v LogPixels /t REG_DWORD /d "$TARGET_DPI" /f >/dev/null 2>&1 || true
+    wineserver -w 2>/dev/null || true
+  fi
+fi
+
 exec wine "$APP_DIR/app/$EXE" "$@"

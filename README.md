@@ -84,6 +84,15 @@ install.sh を使わず、展開したフォルダの `start.sh` を直接実行
 
 初回起動時に専用 Wine プレフィックス（`~/.local/share/edcb-epgtimer-wine/prefix`）が自動作成され、ホストの Noto CJK フォントの取り込みとフォント代替の登録（`fonts.reg`）まで自動で行われます。
 
+## HiDPI（高解像度ディスプレイ）対応
+
+`start.sh` は起動時にディスプレイのスケールを自動検出し、Wine の DPI（LogPixels）を合わせて設定します。
+
+- KDE の場合: `kwinrc` の Xwayland Scale → `kwinoutputconfig.json` の先頭出力の scale の順に読みます（例: スケール 1.65 → 158 DPI）
+- 上書き: 環境変数 `EPGTIMER_DPI_SCALE=1.5` や `EPGTIMER_DPI=144` を指定できます
+- 等倍に戻す: `EPGTIMER_DPI_SCALE=1` で 96 DPI になります
+- EpgTimer 本体は PerMonitorV2 対応（マニフェスト宣言済み）のため、DPI に応じて UI がスケーリングされます
+
 ## 使い方
 
 1. メニューの「EpgTimerNW (Wine)」、デスクトップのショートカット、または `start.sh` から起動
