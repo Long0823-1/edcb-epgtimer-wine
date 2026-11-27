@@ -1,0 +1,27 @@
+diff --git a/EpgTimer/EpgTimer/Common/SettingClass.cs b/EpgTimer/EpgTimer/Common/SettingClass.cs
+index f37cc99..37b7cc0 100644
+--- a/EpgTimer/EpgTimer/Common/SettingClass.cs
++++ b/EpgTimer/EpgTimer/Common/SettingClass.cs
+@@ -362,9 +362,9 @@ namespace EpgTimer
+                 rr.ScrollSize               = ConvertXElem(xx, w, "ScrollSize", val.ScrollSize, 240);
+                 rr.MouseHorizontalScrollAuto = ConvertXElem(xx, w, "MouseHorizontalScrollAuto", val.MouseHorizontalScrollAuto, false);
+                 rr.HorizontalScrollSize     = ConvertXElem(xx, w, "HorizontalScrollSize", val.HorizontalScrollSize, 150);
+-                rr.FontName                 = ConvertXElem(xx, w, "FontName", val.FontName, "メイリオ");
++                rr.FontName                 = ConvertXElem(xx, w, "FontName", val.FontName, "Noto Sans CJK JP");
+                 rr.FontSize                 = ConvertXElem(xx, w, "FontSize", val.FontSize, 12);
+-                rr.FontNameTitle            = ConvertXElem(xx, w, "FontNameTitle", val.FontNameTitle, "メイリオ");
++                rr.FontNameTitle            = ConvertXElem(xx, w, "FontNameTitle", val.FontNameTitle, "Noto Sans CJK JP");
+                 rr.FontSizeTitle            = ConvertXElem(xx, w, "FontSizeTitle", val.FontSizeTitle, 12);
+                 rr.FontBoldTitle            = ConvertXElem(xx, w, "FontBoldTitle", val.FontBoldTitle, true);
+                 rr.DragScroll               = ConvertXElem(xx, w, "DragScroll", val.DragScroll, 1.5);
+@@ -540,8 +540,8 @@ namespace EpgTimer
+             r.RecEndWarColorR           = (byte)ConvertXElem(x, w, "RecEndWarColorR", RecEndWarColorR, 0xFF);
+             r.RecEndWarColorG           = (byte)ConvertXElem(x, w, "RecEndWarColorG", RecEndWarColorG, 0xFF);
+             r.RecEndWarColorB           = (byte)ConvertXElem(x, w, "RecEndWarColorB", RecEndWarColorB, 0);
+-            r.SetAppFont                = ConvertXElem(x, w, "SetAppFont", SetAppFont, false);
+-            r.AppFontName               = ConvertXElem(x, w, "AppFontName", AppFontName, "メイリオ");
++            r.SetAppFont                = ConvertXElem(x, w, "SetAppFont", SetAppFont, true);
++            r.AppFontName               = ConvertXElem(x, w, "AppFontName", AppFontName, "Noto Sans CJK JP");
+             r.AppFontSize               = ConvertXElem(x, w, "AppFontSize", AppFontSize, 12);
+             r.ExecBat                   = (uint)ConvertXElem(x, w, "ExecBat", ExecBat, 0);
+             r.SuspendChk                = (uint)ConvertXElem(x, w, "SuspendChk", SuspendChk, 0);

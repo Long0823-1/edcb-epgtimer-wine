@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=EpgTimerNW (Wine)
+Comment=EDCB リモートフロントエンド (Wine, 別サーバーの EpgTimerSrv へ接続)
+Exec=@START@
+Icon=@ICON@
+Terminal=false
+Categories=AudioVideo;TV;
+Keywords=EDCB;EPG;録画;

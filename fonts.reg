@@ -1,0 +1,17 @@
+REGEDIT4
+
+[HKEY_LOCAL_MACHINE\Software\Microsoft\Windows NT\CurrentVersion\Fonts]
+"Noto Sans CJK JP (TrueType)"="NotoSansCJK-Regular.ttc"
+"Noto Sans CJK JP Bold (TrueType)"="NotoSansCJK-Bold.ttc"
+"Noto Serif CJK JP (TrueType)"="NotoSerifCJK-Regular.ttc"
+"Noto Serif CJK JP Bold (TrueType)"="NotoSerifCJK-Bold.ttc"
+
+[HKEY_LOCAL_MACHINE\Software\Microsoft\Windows NT\CurrentVersion\FontSubstitutes]
+"MS UI Gothic"="Noto Sans CJK JP"
+"MS Gothic"="Noto Sans CJK JP"
+"MS PGothic"="Noto Sans CJK JP"
+"MS Mincho"="Noto Serif CJK JP"
+
+[HKEY_LOCAL_MACHINE\Software\Microsoft\Windows NT\CurrentVersion\FontLink\SystemLink]
+"Microsoft Sans Serif"=hex(7):4e,00,6f,00,74,00,6f,00,53,00,61,00,6e,00,73,00,43,00,4a,00,4b,00,2d,00,52,00,65,00,67,00,75,00,6c,00,61,00,72,00,2e,00,74,00,74,00,63,00,2c,00,4e,00,6f,00,74,00,6f,00,20,00,53,00,61,00,6e,00,73,00,20,00,43,00,4a,00,4b,00,20,00,4a,00,50,00,00,00,00,00
+"Tahoma"=hex(7):4e,00,6f,00,74,00,6f,00,53,00,61,00,6e,00,73,00,43,00,4a,00,4b,00,2d,00,52,00,65,00,67,00,75,00,6c,00,61,00,72,00,2e,00,74,00,74,00,63,00,2c,00,4e,00,6f,00,74,00,6f,00,20,00,53,00,61,00,6e,00,73,00,20,00,43,00,4a,00,4b,00,20,00,4a,00,50,00,00,00,00,00
