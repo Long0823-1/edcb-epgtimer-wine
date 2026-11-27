@@ -1,9 +1,0 @@
-[Desktop Entry]
-Type=Application
-Name=EpgTimer (Wine)
-Comment=EDCB フロントエンド通常版 (Wine)
-Exec=@START@ timer
-Icon=@ICON@
-Terminal=false
-Categories=AudioVideo;TV;
-Keywords=EDCB;EPG;録画;

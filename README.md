@@ -1,6 +1,6 @@
 # edcb-epgtimer-wine
 
-**EDCB のフロントエンド EpgTimer / EpgTimerNW を、Wine で Linux 上で動かすための配布パッケージです。**
+**EDCB のフロントエンド EpgTimerNW を、Wine で Linux 上で動かすための配布パッケージです。**（配布物は NW 版のみです）
 
 録画サーバー（EpgTimerSrv）は別の Windows サーバーで動かし、Linux マシンからはこのフロントだけを使う構成を主用途としています。日本語が文字化け（豆腐）になる問題への対策済みビルドを含みます。
 
@@ -15,7 +15,7 @@
 │                            │  4510番  │                              │
 │  EpgTimerNW.exe            │ ───────▶ │  EpgTimerSrv.exe             │
 │   (Wine 上で動作)           │ ◀─────── │   (チューナー・録画・EPG 管理)  │
-│  EpgTimer.exe (通常版も同梱) │  通知     │  EpgDataCap_Bon.exe          │
+│  EpgTimerNW.exe (NW版のみ)  │  通知     │  EpgDataCap_Bon.exe          │
 └────────────────────────────┘          └──────────────────────────────┘
 ```
 
@@ -24,7 +24,7 @@
 
 ## スクリーンショット
 
-### メイン画面（EpgTimer、予約一覧）
+### メイン画面（予約一覧）
 
 ![EpgTimer メイン画面（予約一覧）](docs/images/epgtimer-main.png)
 
@@ -71,7 +71,7 @@ install.sh は次を行います。
 1. `pacman` で wine / wine-mono / noto-fonts-cjk を導入（sudo）
 2. 本体を `~/.local/share/edcb-epgtimer-wine/` へ配置
 3. **ショートカットを自動作成**
-   - アプリケーションメニュー: `~/.local/share/applications/EpgTimerNW.desktop` と `EpgTimer.desktop`
+   - アプリケーションメニュー: `~/.local/share/applications/EpgTimerNW.desktop`
    - デスクトップ: XDG デスクトップディレクトリ（`~/Desktop` 等）へ同じものをコピーし、実行可能ビットと信頼済みマーク（`gio metadata::trusted`）を付与（デスクトップが無い環境では警告を出してスキップ）
 
 ### 手動で使う
@@ -79,8 +79,7 @@ install.sh は次を行います。
 install.sh を使わず、展開したフォルダの `start.sh` を直接実行しても起動できます。
 
 ```bash
-./start.sh          # EpgTimerNW（リモート接続用、既定）
-./start.sh timer    # EpgTimer（通常版）
+./start.sh          # EpgTimerNW（リモート接続用）
 ```
 
 初回起動時に専用 Wine プレフィックス（`~/.local/share/edcb-epgtimer-wine/prefix`）が自動作成され、ホストの Noto CJK フォントの取り込みとフォント代替の登録（`fonts.reg`）まで自動で行われます。
@@ -92,9 +91,7 @@ install.sh を使わず、展開したフォルダの `start.sh` を直接実行
    - クライアント側に待ち受けポートを作る方式（既定 4520）もダイアログで選択できます（srv 側が許可している場合）
    - Wake-on-LAN 用の MAC アドレス入力とマジックパケット送信もこのダイアログにあります
 3. 接続情報や各種設定は、exe と同じフォルダの設定ファイルに保存されます
-   - NW 版: `EpgTimerNW.exe.xml`（`app/` フォルダ内）
-   - 通常版: `EpgTimer.exe.xml`
-   - そのため NW 版と通常版で設定は分離されます
+   - `EpgTimerNW.exe.xml`（`app/` フォルダ内）
 
 > このパッケージに srv の接続先やパスワードなどの個人設定は含まれていません。接続先は各自の初回起動時に入力してください。
 
@@ -130,10 +127,6 @@ git clone https://github.com/xtne6f/EDCB.git
 cd EDCB
 git apply /path/to/edcb-wine-font.patch
 cd EpgTimer/EpgTimer
-
-# 通常版
-dotnet publish EpgTimer.core.csproj -c Release -r win-x64 \
-  --self-contained true -p:EnableWindowsTargeting=true -o out/epgtimer
 
 # NW 版（AssemblyName を変えるだけ。同一バイナリの改名が NW 版になります）
 dotnet publish EpgTimer.core.csproj -c Release -r win-x64 \

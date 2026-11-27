@@ -20,7 +20,7 @@ chmod +x "$DEST/start.sh"
 
 # --- shortcuts: application menu + desktop ---
 DESKTOP_DIR="$(xdg-user-dir DESKTOP 2>/dev/null || echo "$HOME/Desktop")"
-for d in EpgTimerNW EpgTimer; do
+for d in EpgTimerNW; do
   sed -e "s|@START@|$DEST/start.sh|g" -e "s|@ICON@|$DEST/epgtimer.png|g" \
     "$SRC/$d.desktop" > "$APPS/$d.desktop"
   chmod +x "$APPS/$d.desktop"
@@ -41,4 +41,4 @@ for d in EpgTimerNW EpgTimer; do
   fi
 done
 command -v update-desktop-database >/dev/null 2>&1 && update-desktop-database "$APPS" 2>/dev/null || true
-echo "インストール完了。アプリケーションメニューとデスクトップに「EpgTimerNW (Wine)」(リモート接続用) /「EpgTimer (Wine)」のショートカットを作成しました。$DEST/start.sh からも起動できます。"
+echo "インストール完了。アプリケーションメニューとデスクトップに「EpgTimerNW (Wine)」(リモート接続用) のショートカットを作成しました。$DEST/start.sh からも起動できます。"

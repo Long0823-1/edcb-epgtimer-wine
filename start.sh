@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
-# EpgTimer / EpgTimerNW (Wine) launcher.
-#   ./start.sh          -> EpgTimerNW.exe (default: remote EpgTimerSrv front-end)
-#   ./start.sh timer    -> EpgTimer.exe   (normal mode)
+# EpgTimerNW (Wine) launcher.
+#   ./start.sh          -> EpgTimerNW.exe (remote EpgTimerSrv front-end, NW mode)
 # Creates a dedicated Wine prefix on first run and sets up Japanese fonts.
 set -e
 APP_DIR="$(cd "$(dirname "$0")" && pwd)"
@@ -9,10 +8,6 @@ BASE="${XDG_DATA_HOME:-$HOME/.local/share}/edcb-epgtimer-wine"
 export WINEPREFIX="$BASE/prefix"
 export WINEARCH=win64
 EXE="EpgTimerNW.exe"
-if [ "${1:-}" = "timer" ]; then
-  EXE="EpgTimer.exe"
-  shift
-fi
 if ! command -v wine >/dev/null 2>&1; then
   echo "error: wine が見つかりません。先に ./install.sh を実行してください。" >&2
   exit 1
