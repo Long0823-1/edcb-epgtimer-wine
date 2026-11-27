@@ -1,0 +1,60 @@
+diff --git a/EpgTimer/EpgTimer/Common/NWConnectClass.cs b/EpgTimer/EpgTimer/Common/NWConnectClass.cs
+index 514d63e..132dc33 100644
+--- a/EpgTimer/EpgTimer/Common/NWConnectClass.cs
++++ b/EpgTimer/EpgTimer/Common/NWConnectClass.cs
+@@ -144,6 +144,7 @@ namespace EpgTimer
+                     }
+                     server.Stop();
+                 });
++                workerThread.IsBackground = true;
+                 workerThread.Start();
+             }
+ 
+@@ -232,6 +233,7 @@ namespace EpgTimer
+                         }
+                     }
+                 });
++                workerThread.IsBackground = true;
+                 workerThread.Start();
+             }
+             return true;
+@@ -254,7 +256,7 @@ namespace EpgTimer
+             if (workerThread != null)
+             {
+                 stopEvent.Set();
+-                workerThread.Join();
++                workerThread.Join(3000);
+                 workerThread = null;
+                 stopEvent.Dispose();
+             }
+diff --git a/EpgTimer/EpgTimer/MainWindow.xaml.cs b/EpgTimer/EpgTimer/MainWindow.xaml.cs
+index c4484ea..19f5517 100644
+--- a/EpgTimer/EpgTimer/MainWindow.xaml.cs
++++ b/EpgTimer/EpgTimer/MainWindow.xaml.cs
+@@ -614,7 +614,7 @@ namespace EpgTimer
+                 {
+                     if (CommonManager.Instance.NWConnectedIP != null && Settings.Instance.NWWaitPort != 0)
+                     {
+-                        CommonManager.CreateSrvCtrl().SendUnRegistTCP(Settings.Instance.NWWaitPort);
++                        var __cc = CommonManager.CreateSrvCtrl(); __cc.SetConnectTimeOut(3000); __cc.SendUnRegistTCP(Settings.Instance.NWWaitPort);
+                     }
+                     nwConnect.Dispose();
+                 }
+@@ -897,7 +897,7 @@ namespace EpgTimer
+                         {
+                             if (Settings.Instance.NWWaitPort != 0)
+                             {
+-                                CommonManager.CreateSrvCtrl().SendUnRegistTCP(Settings.Instance.NWWaitPort);
++                                var __cc = CommonManager.CreateSrvCtrl(); __cc.SetConnectTimeOut(3000); __cc.SendUnRegistTCP(Settings.Instance.NWWaitPort);
+                             }
+                             CommonManager.CreateSrvCtrl().SendSuspend(0xFF02);
+                             CommonManager.Instance.NWConnectedIP = null;
+@@ -947,7 +947,7 @@ namespace EpgTimer
+                         {
+                             if (Settings.Instance.NWWaitPort != 0)
+                             {
+-                                CommonManager.CreateSrvCtrl().SendUnRegistTCP(Settings.Instance.NWWaitPort);
++                                var __cc = CommonManager.CreateSrvCtrl(); __cc.SetConnectTimeOut(3000); __cc.SendUnRegistTCP(Settings.Instance.NWWaitPort);
+                             }
+                             CommonManager.CreateSrvCtrl().SendSuspend(0xFF01);
+                             CommonManager.Instance.NWConnectedIP = null;
