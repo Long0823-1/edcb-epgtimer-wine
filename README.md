@@ -93,6 +93,12 @@ Wine 環境では、接続したままウィンドウを閉じると終了処理
 
 Windows 上の通常動作には影響しません（正常時は即座に応答が返るため）。
 
+## 日本語入力（Fcitx5 + Mozc）と右クリックメニューについて
+
+Wine の Wayland ドライバでは Windows の IME が Fcitx5/Mozc に接続できず日本語入力ができず、WPF の右クリックメニュー（レイヤードウィンドウ）が黒く描画される問題がありました。そのため `start.sh` は既定で **XWayland（X11ドライバ）経由** で起動し、`XMODIFIERS=@im=fcitx` などの IM 環境変数を設定します（KDE + XWayland 前提）。
+
+- ネイティブ Wayland で起動したい場合: `EPGTIMER_WAYLAND=1` を指定してください（日本語入力とメニュー描画は未保証）
+
 ## HiDPI（高解像度ディスプレイ）対応
 
 `start.sh` は起動時にディスプレイのスケールを自動検出し、Wine の DPI（LogPixels）を合わせて設定します。

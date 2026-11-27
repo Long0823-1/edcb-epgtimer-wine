@@ -81,4 +81,16 @@ if [ -n "${TARGET_DPI:-}" ] && [ -d "$WINEPREFIX/drive_c" ]; then
   fi
 fi
 
+# --- 日本語入力と描画の安定化: 既定では XWayland (X11) 経由で起動する ---
+# Wine の Wayland ドライバでは Windows IME (IMM) が Fcitx5/Mozc に繋がらず日本語入力ができず、
+# WPF の右クリックメニュー (レイヤードウィンドウ) が黒く描画される問題があるため。
+# X11 ドライバ + XIM (XMODIFIERS=@im=fcitx) が Wine の実績ある経路。
+# ネイティブ Wayland で起動したい場合は EPGTIMER_WAYLAND=1 を指定する。
+if [ -z "${EPGTIMER_WAYLAND:-}" ]; then
+  unset WAYLAND_DISPLAY
+  export XMODIFIERS="${XMODIFIERS:-@im=fcitx}"
+  export GTK_IM_MODULE="${GTK_IM_MODULE:-fcitx}"
+  export QT_IM_MODULE="${QT_IM_MODULE:-fcitx}"
+fi
+
 exec wine "$APP_DIR/app/$EXE" "$@"
